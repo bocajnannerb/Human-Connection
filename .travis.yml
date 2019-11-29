@@ -8,13 +8,14 @@ addons:
     - docker
     - chromium
 
-before_install:
+install:
   - yarn global add wait-on
   # Install Codecov
   - yarn install
   - cp cypress.env.template.json cypress.env.json
 
-install:
+before_script:
+  - echo $NODE_ENV
   - docker-compose -f docker-compose.yml build --parallel
   - docker-compose -f docker-compose.yml -f docker-compose.build-and-test.yml build # just tagging, just be quite fast
   - docker-compose -f docker-compose.yml -f docker-compose.build-and-test.yml up -d
